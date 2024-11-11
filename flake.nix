@@ -6,7 +6,7 @@
     # the nixpkgs version shipped with the nix-portable executable
     # TODO: find out why updating this leads to error when building pkgs.hello:
     # Error: checking whether build environment is sane... ls: cannot access './configure': No such file or directory
-    defaultChannel.url = "nixpkgs/nixos-unstable";
+    defaultChannel.url = "nixpkgs/nixos-24.05";
 
     nix.url = "nix/2.20.6";
   };
@@ -131,7 +131,7 @@
 
           # the static proot built with nix somehow didn't work on other systems,
           # therefore using the proot static build from proot gitlab
-          proot = if crossSystem != null then throw "fix proot for crossSytem" else import ./proot/alpine.nix { inherit pkgs; };
+          proot = if crossSystem != null then throw "fix proot for crossSytem" else import ./proot/github.nix { inherit pkgs; };
         in
           # crashes if nixpkgs updated: error: executing 'git': No such file or directory
           pkgs.callPackage ./default.nix {
