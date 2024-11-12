@@ -170,6 +170,8 @@ let
       echo "ignored-acls = security.selinux system.nfs4_acl" >> \$dir/conf/nix.conf
       echo "use-sqlite-wal = false" >> \$dir/conf/nix.conf
       echo "sandbox-paths = /bin/sh=\$dir/busybox/bin/busybox" >> \$dir/conf/nix.conf
+      echo "substituters = https://cache.nixos.org/ https://kdevlab.cachix.org" >> \$dir/conf/nix.conf
+      echo "trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY= kdevlab.cachix.org-1:/Mxmbtc6KwP9ifFmetjkadaeeqTAtvzBXI81DGLAVIo=" >> \$dir/conf/nix.conf
 
       # configurable config
       echo "sandbox = \$NP_CONF_SANDBOX" >> \$dir/conf/nix.conf
