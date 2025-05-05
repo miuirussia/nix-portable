@@ -29,7 +29,7 @@ with builtins;
   unzip,
   zip,
   unixtools,
-  substituteAll,
+  replaceVars,
   lib,
   glibc,
   ripgrep,
@@ -114,11 +114,14 @@ let
   # Some shell expressions will be evaluated at build time and some at run time.
   # Variables/expressions escaped via `\$` will be evaluated at run time
 
-  runtimeScript = substituteAll {
-    src = ./runtimeScript.sh;
+  runtimeScript = replaceVars ./runtimeScript.sh {
     busyboxBins = lib.escapeShellArgs (attrNames (filterAttrs (d: type: type == "symlink") (readDir "${busybox}/bin")));
     bundledExe = if bundledPackage == null then "" else bundledExe;
     git = git.out; # TODO why not just "git"
+    busyboxOffset = null;
+    busyboxSize = null;
+    stage1_files_sh_offset = null;
+    stage1_files_sh_size = null;
     inherit
       bubblewrap
       nix
@@ -132,10 +135,10 @@ let
     ;
   };
 
-  builderScript = substituteAll {
-    src = ./builder.sh;
-    executable = true;
+  builderScript = replaceVars ./builder.sh {
     bundledExe = if bundledPackage == null then "" else bundledExe;
+    stage1_files_sh_offset = null;
+    stage1_files_sh_size = null;
     inherit
       runtimeScript
       zip
