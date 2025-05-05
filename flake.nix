@@ -8,7 +8,7 @@
     # Error: checking whether build environment is sane... ls: cannot access './configure': No such file or directory
     defaultChannel.url = "nixpkgs/nixos-unstable";
 
-    nix.url = "nix/2.25.2";
+    nix.url = "nix/latest-release";
   };
 
   outputs = { self, ... }@inp:
