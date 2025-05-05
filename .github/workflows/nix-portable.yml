@@ -8,9 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
-      fail-fast: false
       matrix:
         system: [ x86_64-linux, aarch64-linux ]
 
@@ -40,9 +38,7 @@ jobs:
     - name: Install binfmt support
       run: sudo apt-get install -y
 
-    - run: |
-        ./get-binary.sh ${{ matrix.system }}
-        nix build -L .#defaultPackage.${{ matrix.system }}
+    - run: nix build -L .#defaultPackage.${{ matrix.system }}
 
     - name: Archive result
       uses: actions/upload-artifact@v4
