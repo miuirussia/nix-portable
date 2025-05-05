@@ -28,7 +28,7 @@ jobs:
 
     - uses: cachix/cachix-action@v14
       with:
-        name: nix-portable
+        name: kdevlab-nix-portable
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
 
     - name: Set up QEMU
