@@ -1,5 +1,5 @@
 
-name: "build"
+name: "Build and test"
 on:
   workflow_dispatch:
   push:
@@ -45,3 +45,22 @@ jobs:
       with:
         name: nix-portable-${{ matrix.system }}
         path: result/bin/nix-portable
+
+  test_github:
+    name: Test inside github action
+    needs: build
+    if: true
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@v4
+      with:
+          # Nix Flakes doesn't work on shallow clones
+          fetch-depth: 0
+
+    - uses: cachix/install-nix-action@V27
+      with:
+        extra_nix_config: |
+          experimental-features = nix-command flakes
+
+    - run: nix run -L .#job-local
