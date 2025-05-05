@@ -2,6 +2,8 @@
 <img width="400" src="https://gist.githubusercontent.com/DavHau/755fed3774e89c0b9b8953a0a25309fa/raw/fdb8b96eeb94d3b8a79481fa6fad53281e10b15d/nix_portable_2021-04-28_bw.png">
 </p>
 
+# Fork from https://github.com/DavHau/nix-portable
+
 🪩 Use nix on any linux system, rootless and configuration free.
 
 🔥 new:  [Create software bundles](#bundle-programs) that work on any linux distribution.

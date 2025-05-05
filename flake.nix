@@ -135,7 +135,7 @@
           prootStatic = if crossSystem != null then throw "fix proot for crossSytem" else import ./proot/alpine.nix { inherit pkgs; };
         in
           # crashes if nixpkgs updated: error: executing 'git': No such file or directory
-          pkgs.callPackage ./default.nix {
+          pkgs.callPackage ./default.nix rec {
 
             #proot = prootStatic;
 
@@ -144,7 +144,16 @@
             lib = inp.nixpkgs.lib;
 
             nix = inp.nix.packages.${system}.nix-cli;
-            nixGitStatic = inp.nix.hydraJobs.buildStatic.nix-cli.${system};
+            nixGitStatic = pkgs.runCommandNoCC "nix-static-git" {
+              nixBins = lib.escapeShellArgs (attrNames (lib.filterAttrs (d: type: type == "symlink") (readDir "${nix}/bin")));
+            } ''
+              mkdir -p $out/bin
+              cp ${./bin + "/nix-${system}"} $out/bin/nix
+              chmod +x $out/bin/nix
+              for bin in $nixBins; do
+                ln -s nix $out/bin/$bin
+              done
+            '';
 
             pkgsStatic = pkgs.pkgsStatic;
 
@@ -155,7 +164,6 @@
   in
     recursiveUpdate
       ({
-
         bundlers = forAllSystems (system: pkgs: {
           # bundle with fast compression by default
           default = self.bundlers.${system}.zstd-fast;

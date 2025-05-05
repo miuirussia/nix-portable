@@ -1,5 +1,5 @@
 test/
-result*
+/result*
 vm/
 .direnv/
 img
