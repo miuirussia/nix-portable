@@ -1,4 +1,4 @@
 #!/bin/sh
 set -x
 export NIX_BUILD_CORES=1
-exec nix-build -E 'with import <nixpkgs> { }; callPackage ./. { }'
+exec nix build -L .#defaultPackage.x86_64-linux

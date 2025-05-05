@@ -142,7 +142,7 @@
 
             lib = inp.nixpkgs.lib;
 
-            nix = inp.nix.packages.${system}.nix;
+            nix = inp.nix.packages.${system}.nix-cli;
             nixStatic = inp.nix.packages.${system}.nix-static;
 
             pkgsStatic = pkgs.pkgsStatic;
