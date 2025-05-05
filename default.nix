@@ -7,6 +7,7 @@ with builtins;
   # use nix from github
   # https://discourse.nixos.org/t/where-can-i-get-a-statically-built-nix/34253/15
   # https://hydra.nixos.org/job/nix/master/buildStatic.x86_64-linux/all
+  self,
   stdenv,
   nix,
   nixGitStatic,
@@ -58,7 +59,7 @@ let
 
   bundledExe = lib.getExe bundledPackage;
 
-  nixpkgsSrc = pkgs.path;
+  nixpkgsSrc = self;
 
   pkgsBuild = import pkgs.path { system = buildSystem; };
 
@@ -101,21 +102,21 @@ let
   runtimeScript = replaceVars ./runtimeScript.sh {
     busyboxBins = lib.escapeShellArgs (attrNames (filterAttrs (d: type: type == "symlink") (readDir "${busybox}/bin")));
     bundledExe = if bundledPackage == null then "" else bundledExe;
-    git = git.out; # TODO why not just "git"
     busyboxOffset = null;
     busyboxSize = null;
     stage1_files_sh_offset = null;
     stage1_files_sh_size = null;
     inherit
       bubblewrap
-      nix
-      proot
-      zstd
       busybox
       caBundleZstd
-      storeTar
-      nixpkgsSrc
+      git
       gitAttribute
+      nix
+      nixpkgsSrc
+      proot
+      storeTar
+      zstd
     ;
   };
 
