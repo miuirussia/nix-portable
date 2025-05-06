@@ -6,7 +6,7 @@
     # the nixpkgs version shipped with the nix-portable executable
     # TODO: find out why updating this leads to error when building pkgs.hello:
     # Error: checking whether build environment is sane... ls: cannot access './configure': No such file or directory
-    defaultChannel.url = "nixpkgs/nixos-unstable";
+    defaultChannel.url = "github:miuirussia/nixpkgs/nixpkgs-unstable";
 
     # See latest done job https://hydra.nixos.org/job/nix/master/buildStatic.nix-everything.x86_64-linux
     nix.url = "github:NixOS/nix/469a6371ec44c2717f2508dcdec8a88a3a4b9f5b?narHash=sha256-uIamZku0xS58vB2isRgK5v9YTq%2B9IrJpPl9MNwQjLzg%3D";
