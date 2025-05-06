@@ -8,13 +8,13 @@
 
 🔥 new:  [Create software bundles](#bundle-programs) that work on any linux distribution.
 
-[💾 Downloads](https://github.com/DavHau/nix-portable/releases)
+[💾 Downloads](https://github.com/miuirussia/nix-portable/releases)
 
 ---
 
 ### Get nix-portable
 ```shellSession
-curl -L https://github.com/DavHau/nix-portable/releases/latest/download/nix-portable-$(uname -m) > ./nix-portable
+curl -L https://github.com/miuirussia/nix-portable/releases/latest/download/nix-portable-$(uname -m) > ./nix-portable
 
 chmod +x ./nix-portable
 ```
@@ -88,7 +88,7 @@ Examples:
 Create a bundle containing [hello](https://search.nixos.org/packages?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=hello) that will work on any machine:
 
 ```shellSession
-$ nix bundle --bundler github:DavHau/nix-portable -o bundle nixpkgs#hello
+$ nix bundle --bundler github:miuirussia/nix-portable -o bundle nixpkgs#hello
 $ cp ./bundle/bin/hello ./hello && chmod +w hello
 $ ./hello
 Hello World!
@@ -100,7 +100,7 @@ Bundle python with arbitrary libraries as a static executable
 
 ```shellSession
 # create the bundle
-$ nix bundle --bundler github:DavHau/nix-portable -o bundle --impure --expr \
+$ nix bundle --bundler github:miuirussia/nix-portable -o bundle --impure --expr \
   '(import <nixpkgs> {}).python3.withPackages (ps: [ ps.numpy ps.scipy ps.pandas ])'
 $ cp ./bundle/bin/python3 ./python3 && chmod +w ./python3
 
@@ -118,7 +118,7 @@ Prerequisites:
 - expose the devShell via a flake.nix based repo on github
 
 ```shellSession
-$ nix bundle --bundler github:DavHau/nix-portable -o devshell github:<user>/<repo>#devShells.<system>.default 
+$ nix bundle --bundler github:miuirussia/nix-portable -o devshell github:<user>/<repo>#devShells.<system>.default 
 $ cp ./devshell/bin/devshell ./devshell && chmod +w ./devshell
 $ ./devshell
 🔨 Welcome to devshell
@@ -129,7 +129,7 @@ $ ./devshell
 
 #### Bundle compression
 
-To create smaller bundles specify `--bundler github:DavHau/nix-portable#zstd-max`.
+To create smaller bundles specify `--bundler github:miuirussia/nix-portable#zstd-max`.
 
 ### Supported platforms
 
