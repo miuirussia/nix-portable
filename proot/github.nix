@@ -1,5 +1,5 @@
 {
-  pkgs ? import <nixpkgs> {},
+  pkgs ? import <nixpkgs> { },
   ...
 }:
 
@@ -24,10 +24,12 @@ let
   };
 in
 
-pkgs.runCommand "proot-x86_46" {} ''
-  bin=${builtins.fetchurl {
-    inherit (systems."${pkgs.buildPlatform.system}") url sha256;
-  }}
+pkgs.runCommand "proot-x86_46" { } ''
+  bin=${
+    builtins.fetchurl {
+      inherit (systems."${pkgs.buildPlatform.system}") url sha256;
+    }
+  }
   mkdir -p $out/bin
   cp $bin $out/bin/proot
   chmod +x $out/bin/proot

@@ -6,13 +6,14 @@
 
 🪩 Use nix on any linux system, rootless and configuration free.
 
-🔥 new:  [Create software bundles](#bundle-programs) that work on any linux distribution.
+🔥 new: [Create software bundles](#bundle-programs) that work on any linux distribution.
 
 [💾 Downloads](https://github.com/miuirussia/nix-portable/releases)
 
 ---
 
 ### Get nix-portable
+
 ```shellSession
 curl -L https://github.com/miuirussia/nix-portable/releases/latest/download/nix-portable-$(uname -m) > ./nix-portable
 
@@ -59,18 +60,19 @@ Hint: Use [search.nixos.org](https://search.nixos.org/packages) to find availabl
 
 1. Enter a temporary environment with `htop` and `vim`:
 
-    ```shellSession
-    ./nix-portable nix shell nixpkgs#{htop,vim}
-    ```
+   ```shellSession
+   ./nix-portable nix shell nixpkgs#{htop,vim}
+   ```
 
 2. execute htop
 
-    ```shellSession
-    htop
-    ```
+   ```shellSession
+   htop
+   ```
 
 ### Bundle programs
-nix-portable can bundle arbitrary software into a static executable that runs on [any*](#supported-platforms) linux distribution.
+
+nix-portable can bundle arbitrary software into a static executable that runs on [any\*](#supported-platforms) linux distribution.
 
 Prerequisites: Your software is already packaged for nix.
 
@@ -83,7 +85,6 @@ Prerequisites: Your software is already packaged for nix.
 Examples:
 
 #### Bundle gnu hello:
-
 
 Create a bundle containing [hello](https://search.nixos.org/packages?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=hello) that will work on any machine:
 
@@ -114,11 +115,12 @@ Success !
 Bundle a complex development environment including tools like compilers, linters, interpreters, etc. into a static executable.
 
 Prerequisites:
+
 - use [numtide/devshell](https://github.com/numtide/devshell) to define your devShell (`mkShell` from nixpkgs won't work because it is not executable)
 - expose the devShell via a flake.nix based repo on github
 
 ```shellSession
-$ nix bundle --bundler github:miuirussia/nix-portable -o devshell github:<user>/<repo>#devShells.<system>.default 
+$ nix bundle --bundler github:miuirussia/nix-portable -o devshell github:<user>/<repo>#devShells.<system>.default
 $ cp ./devshell/bin/devshell ./devshell && chmod +w ./devshell
 $ ./devshell
 🔨 Welcome to devshell
@@ -159,7 +161,6 @@ nix-portable is tested continuously on the following platforms:
 - A default nixpkgs channel is included and the NIX_PATH variable is set accordingly.
 - Features `flakes` and `nix-command` are enabled out of the box.
 
-
 #### Virtualization
 
 To virtualize the /nix/store, nix-portable supports the following runtimes, preferred in this order:
@@ -199,7 +200,6 @@ Programs obtained outside nix-portable cannot link against or call programs obta
 If user namespaces are not available on a system, nix-portable will fall back to using proot as an alternative mechanism to virtualize /nix.
 Proot can introduce significant performance overhead depending on the workload.
 In that situation, it might be beneficial to use a remote builder or alternatively build the derivations on another host and sync them via a cache like cachix.org.
-
 
 ### Missing Features
 

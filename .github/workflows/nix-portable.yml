@@ -1,4 +1,3 @@
-
 name: "Build and test"
 on:
   workflow_dispatch:
@@ -10,45 +9,45 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        system: [ x86_64-linux, aarch64-linux ]
+        system: [x86_64-linux, aarch64-linux]
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
           # Nix Flakes doesn't work on shallow clones
           fetch-depth: 0
 
-    - name: Install nix
-      uses: cachix/install-nix-action@V27
-      with:
-        extra_nix_config: |
-          experimental-features = nix-command flakes
-          extra-platforms = ${{ matrix.system }}
+      - name: Install nix
+        uses: cachix/install-nix-action@V27
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            extra-platforms = ${{ matrix.system }}
 
-    - name: Configure cachix
-      uses: cachix/cachix-action@v14
-      with:
-        name: kdevlab-nix-portable
-        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+      - name: Configure cachix
+        uses: cachix/cachix-action@v14
+        with:
+          name: kdevlab-nix-portable
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v2
-      with:
-        image: tonistiigi/binfmt@sha256:8de6f2decb92e9001d094534bf8a92880c175bd5dfb4a9d8579f26f09821cfa2
-        platforms: all
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          image: tonistiigi/binfmt@sha256:8de6f2decb92e9001d094534bf8a92880c175bd5dfb4a9d8579f26f09821cfa2
+          platforms: all
 
-    - name: Install binfmt support
-      run: sudo apt-get install -y
+      - name: Install binfmt support
+        run: sudo apt-get install -y
 
-    - name: Build
-      run: nix build -L .#defaultPackage.${{ matrix.system }}
+      - name: Build
+        run: nix build -L .#defaultPackage.${{ matrix.system }}
 
-    - name: Archive result
-      uses: actions/upload-artifact@v4
-      with:
-        name: nix-portable-${{ matrix.system }}
-        path: result/bin/nix-portable
+      - name: Archive result
+        uses: actions/upload-artifact@v4
+        with:
+          name: nix-portable-${{ matrix.system }}
+          path: result/bin/nix-portable
 
   test_github:
     name: Test inside github action
@@ -56,21 +55,20 @@ jobs:
     if: true
     runs-on: ubuntu-latest
     steps:
-
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
           # Nix Flakes doesn't work on shallow clones
           fetch-depth: 0
 
-    - name: Install nix
-      uses: cachix/install-nix-action@V27
-      with:
-        extra_nix_config: |
-          experimental-features = nix-command flakes
+      - name: Install nix
+        uses: cachix/install-nix-action@V27
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
 
-    - name: Test
-      run: nix run -L .#job-local
+      - name: Test
+        run: nix run -L .#job-local
 
   pre-release:
     name: Pre-release
@@ -78,38 +76,38 @@ jobs:
     if: true
     runs-on: ubunti-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
           # Nix Flakes doesn't work on shallow clones
           fetch-depth: 0
 
-    - name: Install nix
-      uses: cachix/install-nix-action@V27
-      with:
-        extra_nix_config: |
-          experimental-features = nix-command flakes
-          extra-platforms = aarch64-linux
+      - name: Install nix
+        uses: cachix/install-nix-action@V27
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            extra-platforms = aarch64-linux
 
-    - name: Configure cachix
-      uses: cachix/cachix-action@v14
-      with:
-        skipPush: true
-        name: kdevlab-nix-portable
-        authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+      - name: Configure cachix
+        uses: cachix/cachix-action@v14
+        with:
+          skipPush: true
+          name: kdevlab-nix-portable
+          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
-    - name: Install binfmt support
-      run: sudo apt-get install -y
+      - name: Install binfmt support
+        run: sudo apt-get install -y
 
-    - name: Generate pre-release
-      run: nix build -L .#packages.x86_64-linux.release
+      - name: Generate pre-release
+        run: nix build -L .#packages.x86_64-linux.release
 
-    - name: Publish pre-release
-      uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "latest"
-        prerelease: true
-        title: "Development Build"
-        files: |
-          result/bin/nix-portable*
+      - name: Publish pre-release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            result/bin/nix-portable*

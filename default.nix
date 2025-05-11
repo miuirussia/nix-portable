@@ -52,10 +52,7 @@ let
   bubblewrap = bubblewrapStatic;
   proot = prootStatic;
 
-  pname =
-    if bundledPackage == null
-    then "nix-portable"
-    else lib.getName bundledPackage;
+  pname = if bundledPackage == null then "nix-portable" else lib.getName bundledPackage;
 
   bundledExe = lib.getExe bundledPackage;
 
@@ -68,7 +65,8 @@ let
   gitAttribute = "gitMinimal";
   git = pkgs."${gitAttribute}";
 
-  maketar = targets:
+  maketar =
+    targets:
     pkgsBuild.stdenv.mkDerivation {
       name = "nix-portable-store-tarball";
       nativeBuildInputs = [ pkgsBuild.zstd ];
@@ -82,17 +80,20 @@ let
       '';
     };
 
-  caBundleZstd = pkgs.runCommand "cacerts" {} "cat ${cacert}/etc/ssl/certs/ca-bundle.crt | ${zstd}/bin/zstd -19 > $out";
-
+  caBundleZstd =
+    pkgs.runCommand "cacerts" { }
+      "cat ${cacert}/etc/ssl/certs/ca-bundle.crt | ${zstd}/bin/zstd -19 > $out";
 
   # the default nix store contents to extract when first used
-  storeTar = maketar ([
-    cacert
-    nix
-    # nix.man # not with nix 2.21.0
-    nixpkgsSrc
-  ] ++ lib.optional (bundledPackage != null) bundledPackage);
-
+  storeTar = maketar (
+    [
+      cacert
+      nix
+      # nix.man # not with nix 2.21.0
+      nixpkgsSrc
+    ]
+    ++ lib.optional (bundledPackage != null) bundledPackage
+  );
 
   # The runtime script which unpacks the necessary files to $HOME/.nix-portable
   # and then executes nix via proot or bwrap
@@ -100,7 +101,9 @@ let
   # Variables/expressions escaped via `\$` will be evaluated at run time
 
   runtimeScript = replaceVars ./runtimeScript.sh {
-    busyboxBins = lib.escapeShellArgs (attrNames (filterAttrs (d: type: type == "symlink") (readDir "${busybox}/bin")));
+    busyboxBins = lib.escapeShellArgs (
+      attrNames (filterAttrs (d: type: type == "symlink") (readDir "${busybox}/bin"))
+    );
     bundledExe = if bundledPackage == null then "" else bundledExe;
     busyboxOffset = null;
     busyboxSize = null;
@@ -117,7 +120,7 @@ let
       proot
       storeTar
       zstd
-    ;
+      ;
   };
 
   builderScript = replaceVars ./builder.sh {
@@ -135,20 +138,22 @@ let
       caBundleZstd
       storeTar
       patchelf
-    ;
+      ;
   };
 
-  nixPortable = pkgs.runCommand pname {
-    nativeBuildInputs = [
-      unixtools.xxd
-      unzip
-      glibc # ldd
-      ripgrep # rg
-    ];
-  }
-  ''
-    bash ${builderScript}
-  '';
+  nixPortable =
+    pkgs.runCommand pname
+      {
+        nativeBuildInputs = [
+          unixtools.xxd
+          unzip
+          glibc # ldd
+          ripgrep # rg
+        ];
+      }
+      ''
+        bash ${builderScript}
+      '';
 
 in
 nixPortable
