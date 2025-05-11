@@ -7,7 +7,7 @@ with builtins;
   # use nix from github
   # https://discourse.nixos.org/t/where-can-i-get-a-statically-built-nix/34253/15
   # https://hydra.nixos.org/job/nix/master/buildStatic.x86_64-linux/all
-  revision,
+  portableRevision,
   self,
   stdenv,
   nix,
@@ -111,7 +111,7 @@ let
     stage1_files_sh_offset = null;
     stage1_files_sh_size = null;
     inherit
-      revision
+      portableRevision
       bubblewrap
       busybox
       caBundleZstd

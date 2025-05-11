@@ -13,7 +13,7 @@ git=@git@
 gitAttribute=@gitAttribute@
 nixpkgsSrc=@nixpkgsSrc@
 bundledExe=@bundledExe@
-revision=@revision@
+portableRevision=@portableRevision@
 
 # sed interface
 # busyboxOffset=@busyboxOffset@
@@ -56,7 +56,7 @@ else
 fi
 
 # hello message
-debug "nix-portable revision $revision"
+debug "nix-portable revision $portableRevision"
 
 # to reference this script's file
 self="$(realpath "${BASH_SOURCE[0]}")"
@@ -89,7 +89,7 @@ builtins.derivation {
 }
 EOF
 )"
-if [ "$(cat "$dir/mini-drv.nix" || true)" != "$miniDrv" ]; then
+if [ "$(cat "$dir/mini-drv.nix" 2> /dev/null || true)" != "$miniDrv" ]; then
   echo "$miniDrv" >"$dir/mini-drv.nix"
 fi
 
