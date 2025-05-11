@@ -433,7 +433,9 @@ debug "base command will be: $run"
 
 
 ### setup environment
-export NIX_PATH="$dir/channels:nixpkgs=$dir/channels/nixpkgs"
+emptyPath="$dir/nixpkgs-empty"
+export NIX_PATH="$dir/channels:nixpkgs=$dir/channels/nixpkgs:nixpkgs-overlays=$emptyPath"
+mkdir -p "$emptyPath"
 mkdir -p "$dir"/channels
 [ -h "$dir"/channels/nixpkgs ] || ln -s $nixpkgsSrc "$dir"/channels/nixpkgs
 
