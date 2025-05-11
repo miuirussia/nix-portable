@@ -74,7 +74,7 @@ jobs:
     name: Pre-release
     needs: test_github
     if: true
-    runs-on: ubunti-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
