@@ -13,6 +13,7 @@ git=@git@
 gitAttribute=@gitAttribute@
 nixpkgsSrc=@nixpkgsSrc@
 bundledExe=@bundledExe@
+revision=@revision@
 
 # sed interface
 # busyboxOffset=@busyboxOffset@
@@ -53,6 +54,9 @@ else
   }
   exec 3>/dev/null
 fi
+
+# hello message
+debug "nix-portable revision $revision"
 
 # to reference this script's file
 self="$(realpath "${BASH_SOURCE[0]}")"
@@ -433,9 +437,7 @@ debug "base command will be: $run"
 
 
 ### setup environment
-export NIX_PATH="$dir/channels:nixpkgs=$dir/channels/nixpkgs:nixpkgs-overlays=$dir/emptyroot"
-mkdir -p "$dir"/channels
-ln -sf $nixpkgsSrc "$dir"/channels/nixpkgs
+export NIX_PATH="nixpkgs=$nixpkgsSrc:nixpkgs-overlays=$dir/emptyroot"
 
 
 if false; then
