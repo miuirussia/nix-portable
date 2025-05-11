@@ -437,7 +437,8 @@ debug "base command will be: $run"
 
 
 ### setup environment
-export NIX_PATH="nixpkgs=$nixpkgsSrc:nixpkgs-overlays=$dir/emptyroot"
+export NIX_PATH="$dir/channels:nixpkgs=$nixpkgsSrc:nixpkgs-overlays=$dir/overlays"
+mkdir -p "$dir"/channels "$dir"/overlays
 
 
 if false; then
