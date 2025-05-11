@@ -6,14 +6,14 @@ let
   system = pkgs.system;
   apks = {
     x86_64-linux = {
-      # original: http://dl-cdn.alpinelinux.org/alpine/edge/testing/x86_64/proot-static-5.4.0-r0.apk
-      url = "https://web.archive.org/web/20240412082958/http://dl-cdn.alpinelinux.org/alpine/edge/testing/x86_64/proot-static-5.4.0-r0.apk";
-      sha256 = "sha256:0ljxc4waa5i1j7hcqli4z7hhpkvjr5k3xwq1qyhlm2lldmv9izqy";
+      # original: http://dl-cdn.alpinelinux.org/alpine/edge/testing/x86_64/proot-static-5.4.0-r1.apk
+      url = "https://web.archive.org/web/20240412082958/http://dl-cdn.alpinelinux.org/alpine/edge/testing/x86_64/proot-static-5.4.0-r1.apk";
+      sha256 = "sha256-hvwOm8fc34fjdy6PGQTF4Ipa6w/PWCyRl1R6ZQP75GM=";
     };
     aarch64-linux = {
-      # original: http://dl-cdn.alpinelinux.org/alpine/edge/testing/aarch64/proot-static-5.4.0-r0.apk
-      url = "https://web.archive.org/web/20240412083320/http://dl-cdn.alpinelinux.org/alpine/edge/testing/aarch64/proot-static-5.4.0-r0.apk";
-      sha256 = "sha256:0nl3gnbirxkhyralqx01xwg8nxanj1bgz7pkk118nv5wrf26igyd";
+      # original: http://dl-cdn.alpinelinux.org/alpine/edge/testing/aarch64/proot-static-5.4.0-r1.apk
+      url = "https://web.archive.org/web/20240412083320/http://dl-cdn.alpinelinux.org/alpine/edge/testing/aarch64/proot-static-5.4.0-r1.apk";
+      sha256 = "sha256-6ORDSgjhzrN0ZQLopfzNUsdCBPG5v0GVT8SJsU9vZCg=";
     };
   };
 in
