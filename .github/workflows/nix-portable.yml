@@ -110,4 +110,5 @@ jobs:
           prerelease: true
           title: "Development Build"
           files: |
-            result/bin/nix-portable*
+            result/**/*
+            result/*
