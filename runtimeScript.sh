@@ -572,7 +572,7 @@ export PATH="$dir/tmpbin:$PATH"
 if $doInstallGit && [ ! -e "$store$(removePrefix "/nix/store" $git)" ] ; then
   echo "Installing git. Disable this by specifying the git executable path with 'NP_GIT'"
   $run "$store$(removePrefix "/nix/store" $nix)/bin/nix" build --impure --no-link --expr "
-    (import $nixpkgsSrc {}).$gitAttribute.out
+    (import $nixpkgsSrc { overlays = []; }).$gitAttribute.out
   "
 else
   debug "git already installed or manually specified"
