@@ -56,7 +56,6 @@
 
           self = "${inp.defaultChannel}";
 
-
           pkgs = pkgsDefaultChannel;
 
           lib = inp.nixpkgs.lib;
