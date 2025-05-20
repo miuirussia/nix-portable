@@ -561,7 +561,7 @@ if [ "$lastRuntime" != "$NP_RUNTIME" ]; then
   echo -n "$NP_RUNTIME" > "$dir/conf/last_runtime"
 fi
 
-
+debug "Nix: $($run "$store$(removePrefix "/nix/store" $nix)/bin/nix" --version)"
 
 ### set PATH
 # restore original PATH and append busybox
