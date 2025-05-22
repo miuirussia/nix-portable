@@ -8,6 +8,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+          persist-credentials: true
       - name: Cleanup shit
         uses: wimpysworld/nothing-but-nix@main
         with:
@@ -16,8 +19,22 @@ jobs:
       - name: Install nix
         uses: cachix/install-nix-action@v31
         with:
+          nix_path: nixpkgs=channel:nixos-unstable
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Update
         run: |
           nix flake update
           ./update.py
+      - name: Push changes
+        run: |
+          set -x
+
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+          STATUS=$(git status -s)
+          if [ -n "$STATUS" ]; then
+              git add .
+              git commit -m "$(date) automatic merge"
+              git push
+          fi
