@@ -13,6 +13,7 @@ with builtins;
   nix,
   nixGitStatic,
   unzip,
+  upx,
   zip,
   unixtools,
   replaceVars,
@@ -43,15 +44,26 @@ with builtins;
 
 with lib;
 let
+  packStaticBin =
+    pkg: paths:
+    pkgs.runCommand "${pkg.name}-upx" { nativeBuildInputs = [ upx ]; } ''
+      mkdir -p $out/bin
+      cp -r ${pkg}/* $out
+      IFS=' '
+      for item in "${builtins.toString paths}"; do
+        rm -f $out/$item
+        upx -9 -f -o $out/$item ${pkg}/$item
+      done
+    '';
 
   nixStatic = nixGitStatic;
 
   # stage1 bins
-  busybox = busyboxStatic;
-  zstd = zstdStatic;
-  nix = nixStatic;
-  bubblewrap = bubblewrapStatic;
-  proot = prootStatic;
+  busybox = packStaticBin busyboxStatic [ "bin/busybox" ];
+  zstd = packStaticBin zstdStatic [ "bin/zstd" ];
+  nix = packStaticBin nixStatic [ "bin/nix" ];
+  bubblewrap = packStaticBin bubblewrapStatic [ "bin/bwrap" ];
+  proot = packStaticBin prootStatic [ "bin/proot" ];
 
   pname = if bundledPackage == null then "nix-portable" else lib.getName bundledPackage;
 
