@@ -61,7 +61,21 @@
           lib = inp.nixpkgs.lib;
           portableRevision = if (inp.self ? rev) then inp.self.rev else "dirty";
           nix = inp.nix.packages.${system}.nix-cli;
-          nixGitStatic = inp.nix.hydraJobs.buildStatic.nix-cli.${system};
+          nixGitStatic =
+            pkgs.runCommandNoCC "nix-static-git"
+              {
+                nixBins = lib.escapeShellArgs (
+                  attrNames (lib.filterAttrs (d: type: type == "symlink") (readDir "${nix}/bin"))
+                );
+              }
+              ''
+                mkdir -p $out/bin
+                cat ${inp.nix.hydraJobs.buildStatic.nix-cli.${system}}/bin/nix > $out/bin/nix
+                chmod +x $out/bin/nix
+                for bin in $nixBins; do
+                  ln -s nix $out/bin/$bin
+                done
+              '';
 
           pkgsStatic = pkgs.pkgsStatic;
 

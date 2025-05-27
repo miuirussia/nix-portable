@@ -46,17 +46,24 @@ with lib;
 let
   packStaticBin =
     pkg: paths:
-    pkgs.runCommand "${lib.getName pkg}-upx" { nativeBuildInputs = [ upx stdenv.cc ]; } ''
-      mkdir -p $out/bin
-      cp -r ${pkg}/* $out
-      IFS=' '
-      for item in "${builtins.toString paths}"; do
-        rm -f $out/$item
-        strip --verbose --strip-all ${pkg}/$item -o $out/$item.big
-        upx --best --lzma $out/$item.big -o $out/$item
-        rm $out/$item.big
-      done
-    '';
+    pkgs.runCommand "${lib.getName pkg}-upx"
+      {
+        nativeBuildInputs = [
+          upx
+          stdenv.cc
+        ];
+      }
+      ''
+        mkdir -p $out/bin
+        cp -r ${pkg}/* $out
+        IFS=' '
+        for item in "${builtins.toString paths}"; do
+          rm -f $out/$item
+          strip --verbose --strip-all ${pkg}/$item -o $out/$item.big
+          upx --best --lzma $out/$item.big -o $out/$item
+          rm $out/$item.big
+        done
+      '';
 
   nixStatic = nixGitStatic;
 
