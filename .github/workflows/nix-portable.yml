@@ -105,11 +105,12 @@ jobs:
         run: nix build -L .#release
 
       - name: Publish pre-release
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: softprops/action-gh-release@v2
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          tag_name: "latest"
           prerelease: true
-          title: "Development Build"
+          name: "Development Build"
+          append_body: true
           files: |
             result/nix-portable-*
