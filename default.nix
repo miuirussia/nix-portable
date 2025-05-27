@@ -52,7 +52,7 @@ let
       IFS=' '
       for item in "${builtins.toString paths}"; do
         rm -f $out/$item
-        strip  ${pkg}/$item -o $out/$item.big
+        strip -v ${pkg}/$item -o $out/$item.big
         upx -9 -f -o $out/$item $out/$item.big
         rm $out/$item.big
       done
