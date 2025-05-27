@@ -19,6 +19,7 @@ jobs:
         with:
           # Nix Flakes doesn't work on shallow clones
           fetch-depth: 0
+          persist-credentials: true
 
       - name: Install nix
         uses: cachix/install-nix-action@V27
@@ -103,6 +104,17 @@ jobs:
 
       - name: Generate pre-release
         run: nix build -L .#release
+
+      - name: Move latest tag
+        run: |
+          set -x
+
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+
+          git push origin :refs/tags/latest
+          git tag -fa latest -m "Latest pre-release"
+          git push origin latest
 
       - name: Publish pre-release
         uses: softprops/action-gh-release@v2
