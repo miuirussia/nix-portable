@@ -46,13 +46,15 @@ with lib;
 let
   packStaticBin =
     pkg: paths:
-    pkgs.runCommand "${lib.getName pkg}-upx" { nativeBuildInputs = [ upx ]; } ''
+    pkgs.runCommand "${lib.getName pkg}-upx" { nativeBuildInputs = [ upx stdenv.cc ]; } ''
       mkdir -p $out/bin
       cp -r ${pkg}/* $out
       IFS=' '
       for item in "${builtins.toString paths}"; do
         rm -f $out/$item
-        upx -9 -f -o $out/$item ${pkg}/$item
+        strip  ${pkg}/$item -o $out/$item.big
+        upx -9 -f -o $out/$item $out/$item.big
+        rm $out/$item.big
       done
     '';
 
