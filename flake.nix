@@ -70,7 +70,7 @@
               }
               ''
                 mkdir -p $out/bin
-                cat ${inp.nix.hydraJobs.buildStatic.nix-cli.${system}}/bin/nix > $out/bin/nix
+                cat ${inp.nix.packages.${system}.nix-cli-static}/bin/nix > $out/bin/nix
                 chmod +x $out/bin/nix
                 for bin in $nixBins; do
                   ln -s nix $out/bin/$bin
