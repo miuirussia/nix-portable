@@ -61,8 +61,8 @@
           lib = inp.nixpkgs.lib;
           portableRevision = if (inp.self ? rev) then inp.self.rev else "dirty";
           nix = inp.nix.packages.${system}.nix-cli;
-          nixGitStatic =
-            pkgs.runCommandNoCC "nix-static-git"
+          nixStatic =
+            pkgs.runCommandNoCC "nix-static-optimized"
               {
                 nixBins = lib.escapeShellArgs (
                   attrNames (lib.filterAttrs (d: type: type == "symlink") (readDir "${nix}/bin"))

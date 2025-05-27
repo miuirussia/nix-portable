@@ -1,17 +1,14 @@
 with builtins;
 {
   bubblewrapStatic ? pkgsStatic.bubblewrap,
-  # fix: builder failed to produce output path for output 'man'
-  # https://github.com/milahu/nixpkgs/issues/83
-  # nixStatic ? pkgsStatic.nix,
-  # use nix from github
-  # https://discourse.nixos.org/t/where-can-i-get-a-statically-built-nix/34253/15
-  # https://hydra.nixos.org/job/nix/master/buildStatic.x86_64-linux/all
   portableRevision,
   self,
   stdenv,
+  # use nix from github
+  # https://discourse.nixos.org/t/where-can-i-get-a-statically-built-nix/34253/15
+  # https://hydra.nixos.org/job/nix/master/buildStatic.x86_64-linux/all
   nix,
-  nixGitStatic,
+  nixStatic,
   unzip,
   upx,
   zip,
@@ -64,8 +61,6 @@ let
           rm $out/$item.big
         done
       '';
-
-  nixStatic = nixGitStatic;
 
   # stage1 bins
   busybox = packStaticBin busyboxStatic [ "bin/busybox" ];
