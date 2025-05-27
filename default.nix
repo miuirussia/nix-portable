@@ -46,7 +46,7 @@ with lib;
 let
   packStaticBin =
     pkg: paths:
-    pkgs.runCommand "${pkg.name}-upx" { nativeBuildInputs = [ upx ]; } ''
+    pkgs.runCommand "${lib.getName pkg}-upx" { nativeBuildInputs = [ upx ]; } ''
       mkdir -p $out/bin
       cp -r ${pkg}/* $out
       IFS=' '
