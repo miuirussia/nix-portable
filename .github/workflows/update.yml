@@ -25,8 +25,8 @@ jobs:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
       - name: Update
         run: |
-          nix flake update
           ./update.py
+          nix flake update
       - name: Push changes
         run: |
           set -x

@@ -59,7 +59,7 @@
           pkgs = pkgsDefaultChannel;
 
           lib = inp.nixpkgs.lib;
-          portableRevision = inp.self.rev;
+          portableRevision = if (inp.self ? rev) then inp.self.rev else "dirty";
           nix = inp.nix.packages.${system}.nix-cli;
           nixGitStatic =
             pkgs.runCommandNoCC "nix-static-git"
