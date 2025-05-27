@@ -122,7 +122,6 @@ jobs:
           token: "${{ secrets.GITHUB_TOKEN }}"
           tag_name: "latest"
           prerelease: true
-          name: "Development Build"
-          generate_release_notes: true
+          draft: false
           files: |
             result/nix-portable-*
