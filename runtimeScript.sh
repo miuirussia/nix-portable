@@ -322,14 +322,6 @@ collectBinds(){
   if test -s /bin/sh && [[ "$(realpath /bin/sh)" == /nix/store/* ]]; then
     toBind="$toBind $dir/bin /bin"
   fi
-
-  # TODO remove
-  if false; then
-  # bind all libs required by our bins
-  find "$dir/lib/nix/store" -not -type d | while read -r path; do
-    toBind="$toBind $path $(removePrefix "$dir" "$path")"
-  done
-  fi
 }
 
 
@@ -474,17 +466,13 @@ index="$(cat $storeTar/closureInfo/store-paths)"
     rm -rf "$dir"/tmp
   fi
 
-  # TODO remove?
-  if false; then
   if [ -n "$missing" ]; then
     debug "registering new store paths to DB"
-    # reg="$(cat $storeTar/closureInfo/registration)"
+    reg="$(cat $storeTar/closureInfo/registration)"
     cmd="$run $store$(removePrefix "/nix/store" $nix)/bin/nix-store --load-db"
-    debug "running command: $cmd"
-    # echo "$reg" | $cmd
+    debug "running command: $reg |> $cmd"
+    echo "$reg" | $cmd
   fi
-  fi
-# fi
 fi
 
 
