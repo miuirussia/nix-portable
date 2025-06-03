@@ -22,20 +22,20 @@ jobs:
           persist-credentials: true
 
       - name: Install nix
-        uses: cachix/install-nix-action@V27
+        uses: cachix/install-nix-action@master
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
             extra-platforms = ${{ matrix.system }}
 
       - name: Configure cachix
-        uses: cachix/cachix-action@v14
+        uses: cachix/cachix-action@master
         with:
           name: kdevlab-nix-portable
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
+        uses: docker/setup-qemu-action@master
         with:
           image: tonistiigi/binfmt@sha256:8de6f2decb92e9001d094534bf8a92880c175bd5dfb4a9d8579f26f09821cfa2
           platforms: all
@@ -65,7 +65,7 @@ jobs:
           fetch-depth: 0
 
       - name: Install nix
-        uses: cachix/install-nix-action@V27
+        uses: cachix/install-nix-action@master
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
@@ -86,14 +86,14 @@ jobs:
           fetch-depth: 0
 
       - name: Install nix
-        uses: cachix/install-nix-action@V27
+        uses: cachix/install-nix-action@master
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
             extra-platforms = aarch64-linux
 
       - name: Configure cachix
-        uses: cachix/cachix-action@v14
+        uses: cachix/cachix-action@master
         with:
           skipPush: true
           name: kdevlab-nix-portable
@@ -121,6 +121,8 @@ jobs:
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           tag_name: "latest"
+          name: Development build
+          generate_release_notes: true
           prerelease: true
           draft: false
           files: |
