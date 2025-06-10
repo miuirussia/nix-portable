@@ -32,6 +32,6 @@ jobs:
           STATUS=$(git status -s)
           if [ -n "$STATUS" ]; then
               git add .
-              git commit -m "$(date) automatic merge"
+              git commit -m "[automatic] $(date) update dependencies"
               git push
           fi
