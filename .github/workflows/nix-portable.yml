@@ -85,7 +85,11 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          path: $GITHUB_WORKSPACE/result
+          path: ./result
+
+      - name: Test paths
+        run: |
+         find .
 
       - name: Move latest tag
         run: |
