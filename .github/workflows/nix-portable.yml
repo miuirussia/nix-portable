@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        system: [x86_64-linux, aarch64-linux]
+        system: [x86_64, aarch64]
 
     steps:
       - name: Checkout
@@ -26,7 +26,7 @@ jobs:
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
-            extra-platforms = ${{ matrix.system }}
+            extra-platforms = ${{ matrix.system }}-linux
 
       - name: Configure cachix
         uses: cachix/cachix-action@master
@@ -44,7 +44,7 @@ jobs:
         run: sudo apt-get install -y
 
       - name: Build
-        run: nix build -L .#defaultPackage.${{ matrix.system }}
+        run: nix build -L .#defaultPackage.${{ matrix.system }}-linux
 
       - name: Archive result
         uses: actions/upload-artifact@v4
@@ -81,29 +81,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
         with:
-          # Nix Flakes doesn't work on shallow clones
-          fetch-depth: 0
-
-      - name: Install nix
-        uses: cachix/install-nix-action@master
-        with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
-            extra-platforms = aarch64-linux
-
-      - name: Configure cachix
-        uses: cachix/cachix-action@master
-        with:
-          skipPush: true
-          name: kdevlab-nix-portable
-          authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
-
-      - name: Install binfmt support
-        run: sudo apt-get install -y
-
-      - name: Generate pre-release
-        run: nix build -L .#release
+          path: $GITHUB_WORKSPACE/result
 
       - name: Move latest tag
         run: |
@@ -117,7 +99,7 @@ jobs:
           git push origin latest
 
       - name: Publish pre-release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v2.2.2
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           tag_name: "latest"
