@@ -87,9 +87,19 @@ jobs:
         with:
           path: ./result
 
-      - name: Test paths
+      - name: Improve download paths
         run: |
-         find .
+          set -x
+
+          for platform_dir in ./result/*; do
+            if [ -d "$platform_dir" ]; then
+              platform=$(basename "$platform_dir")
+              mv "$platform_dir" "$platform_dir".dir
+              mv "$platform_dir".dir/nix-portable "$platform_dir"
+              rm -r "$platform_dir".dir/
+            fi
+          done
+          find .
 
       - name: Move latest tag
         run: |
