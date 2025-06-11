@@ -60,18 +60,37 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          # Nix Flakes doesn't work on shallow clones
-          fetch-depth: 0
 
-      - name: Install nix
-        uses: cachix/install-nix-action@master
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
         with:
-          extra_nix_config: |
-            experimental-features = nix-command flakes
+          path: ./result
+
+      - name: Improve download paths
+        run: |
+          set -x
+
+          for platform_dir in ./result/*; do
+            if [ -d "$platform_dir" ]; then
+              platform=$(basename "$platform_dir")
+              mv "$platform_dir" "$platform_dir".dir
+              mv "$platform_dir".dir/nix-portable "$platform_dir"
+              rm -r "$platform_dir".dir/
+            fi
+          done
+
+          find .
+
+          chmod +x ./result/nix-portable-*
 
       - name: Test
-        run: nix run -L .#job-local
+        run: |
+          export NP_DEBUG=1
+
+          ./result/nix-portable-x86_64 nix eval --impure --expr 'builtins.fetchGit {url="https://github.com/miuirussia/nix-portable"; rev="94b5e6c28600246a822d8b3b6f8d34603000312e";}'
+          ./result/nix-portable-x86_64 nix build --no-link -L --impure --expr '(import <nixpkgs> {}).hello.overrideAttrs(_:{change="_var_";})'
+          ./result/nix-portable-x86_64 nix-shell -p hello --run hello
+          echo "All tests passed"
 
   pre-release:
     name: Pre-release

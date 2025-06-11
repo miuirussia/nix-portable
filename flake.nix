@@ -28,15 +28,6 @@
       forAllSystems =
         f: genAttrs supportedSystems (system: f system (import inp.nixpkgs { inherit system; }));
 
-      commandsToTest = [
-        # test git
-        ''nix eval --impure --expr 'builtins.fetchGit {url="https://github.com/davhau/nix-portable"; rev="7ebf4ca972c6613983b2698ab7ecda35308e9886";}' ''
-        # test importing <nixpkgs> and building hello works
-        ''nix build -L --impure --expr '(import <nixpkgs> {}).hello.overrideAttrs(_:{change="_var_";})' ''
-        # test running a program from the nix store
-        "nix-shell -p hello --run hello"
-      ];
-
       nixPortableForSystem =
         {
           system,
@@ -147,28 +138,6 @@
         );
 
         defaultPackage = forAllSystems (system: pkgs: self.packages."${system}".nix-portable);
-
-        apps = forAllSystems (
-          system: pkgs: {
-            job-local.type = "app";
-            job-local.program = toString (
-              pkgs.writeScript "job-local" ''
-                #!/usr/bin/env bash
-                set -e
-                export NP_DEBUG=''${NP_DEBUG:-1}
-                ${concatStringsSep "\n\n" (
-                  forEach [ "bwrap" "proot" ] (
-                    runtime:
-                    concatStringsSep "\n" (
-                      map (cmd: ''${self.packages."${system}".nix-portable}/bin/nix-portable ${cmd}'') commandsToTest
-                    )
-                  )
-                )}
-                echo "all tests succeeded"
-              ''
-            );
-          }
-        );
       })
       {
         packages = (
