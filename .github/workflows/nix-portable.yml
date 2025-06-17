@@ -8,10 +8,8 @@ on:
       - v*
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        system: [x86_64, aarch64]
 
     steps:
       - name: Checkout
@@ -21,12 +19,18 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
+      - name: Cache result
+        uses: actions/cache@v4
+        with:
+          key: dist-${{ github.sha }}
+          path: dist
+
       - name: Install nix
         uses: cachix/install-nix-action@master
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
-            extra-platforms = ${{ matrix.system }}-linux
+            extra-platforms = aarch64-linux
 
       - name: Configure cachix
         uses: cachix/cachix-action@master
@@ -44,81 +48,49 @@ jobs:
         run: sudo apt-get install -y
 
       - name: Build
-        run: nix build -L .#defaultPackage.${{ matrix.system }}-linux
+        run: |
+          nix build -L .#release
+          mkdir -p dist
+          cp result/* dist/
 
-      - name: Archive result
-        uses: actions/upload-artifact@v4
-        with:
-          name: nix-portable-${{ matrix.system }}
-          path: result/bin/nix-portable
-
-  test_github:
+  test:
     name: Test inside github action
-    needs: build
-    if: true
     runs-on: ubuntu-latest
+    needs: build
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
+      - name: Restore cache
+        uses: actions/cache/restore@v4
         with:
-          path: ./result
-
-      - name: Improve download paths
-        run: |
-          set -x
-
-          for platform_dir in ./result/*; do
-            if [ -d "$platform_dir" ]; then
-              platform=$(basename "$platform_dir")
-              mv "$platform_dir" "$platform_dir".dir
-              mv "$platform_dir".dir/nix-portable "$platform_dir"
-              rm -r "$platform_dir".dir/
-            fi
-          done
-
-          find .
-
-          chmod +x ./result/nix-portable-*
+          key: dist-${{ github.sha }}
+          path: dist
 
       - name: Test
         run: |
           export NP_DEBUG=1
 
-          ./result/nix-portable-x86_64 nix eval --impure --expr 'builtins.fetchGit {url="https://github.com/miuirussia/nix-portable"; rev="94b5e6c28600246a822d8b3b6f8d34603000312e";}'
-          ./result/nix-portable-x86_64 nix build --no-link -L --impure --expr '(import <nixpkgs> {}).hello.overrideAttrs(_:{change="_var_";})'
-          ./result/nix-portable-x86_64 nix-shell -p hello --run hello
+          ./dist/nix-portable-x86_64 nix eval --impure --expr 'builtins.fetchGit {url="https://github.com/miuirussia/nix-portable"; rev="94b5e6c28600246a822d8b3b6f8d34603000312e";}'
+          ./dist/nix-portable-x86_64 nix build --no-link -L --impure --expr '(import <nixpkgs> {}).hello.overrideAttrs(_:{change="_var_";})'
+          ./dist/nix-portable-x86_64 nix-shell -p hello --run hello
           echo "All tests passed"
 
   pre-release:
     name: Pre-release
-    needs: test_github
-    if: true
     runs-on: ubuntu-latest
+    needs: test
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download artifacts
-        uses: actions/download-artifact@v4
+      - name: Restore cache
+        uses: actions/cache/restore@v4
         with:
-          path: ./result
-
-      - name: Improve download paths
-        run: |
-          set -x
-
-          for platform_dir in ./result/*; do
-            if [ -d "$platform_dir" ]; then
-              platform=$(basename "$platform_dir")
-              mv "$platform_dir" "$platform_dir".dir
-              mv "$platform_dir".dir/nix-portable "$platform_dir"
-              rm -r "$platform_dir".dir/
-            fi
-          done
-          find .
+          key: dist-${{ github.sha }}
+          path: dist
 
       - name: Move latest tag
         run: |
@@ -141,4 +113,18 @@ jobs:
           prerelease: true
           draft: false
           files: |
-            ./result/nix-portable-*
+            ./dist/nix-portable-*
+
+  cleanup:
+    name: "Cleanup"
+    runs-on: ubuntu-latest
+    needs: pre-release
+
+    steps:
+      - name: Cleanup
+        run: |
+          gh cache delete $CACHE_KEY
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          CACHE_KEY: dist-${{ github.sha }}
