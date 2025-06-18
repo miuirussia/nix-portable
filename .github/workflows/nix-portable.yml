@@ -19,12 +19,6 @@ jobs:
           fetch-depth: 0
           persist-credentials: true
 
-      - name: Cache result
-        uses: actions/cache@v4
-        with:
-          key: dist-${{ github.sha }}
-          path: dist
-
       - name: Install nix
         uses: cachix/install-nix-action@master
         with:
@@ -46,6 +40,12 @@ jobs:
 
       - name: Install binfmt support
         run: sudo apt-get install -y
+        
+      - name: Cache result
+        uses: actions/cache@v4
+        with:
+          key: dist-${{ github.sha }}
+          path: dist
 
       - name: Build
         run: |
