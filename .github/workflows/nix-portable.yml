@@ -40,41 +40,41 @@ jobs:
 
       - name: Install binfmt support
         run: sudo apt-get install -y
-        
+
       - name: Cache result
         uses: actions/cache@v4
         with:
-          key: dist-${{ github.sha }}
-          path: dist
+          key: result-${{ github.sha }}
+          path: result
 
       - name: Build
+        id: build
         run: |
-          nix build -L .#release
-          mkdir -p dist
-          cp result/* dist/
-
+          result_path=$(nix build --no-link --print-build-logs --print-out-paths .#release)
+          cp -r --no-preserve=ownership $result_path result
+        
   test:
     name: Test inside github action
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Restore cache
         uses: actions/cache/restore@v4
         with:
-          key: dist-${{ github.sha }}
-          path: dist
+          key: result-${{ github.sha }}
+          path: result
+          fail-on-cache-miss: true
 
       - name: Test
         run: |
           export NP_DEBUG=1
 
-          ./dist/nix-portable-x86_64 nix eval --impure --expr 'builtins.fetchGit {url="https://github.com/miuirussia/nix-portable"; rev="94b5e6c28600246a822d8b3b6f8d34603000312e";}'
-          ./dist/nix-portable-x86_64 nix build --no-link -L --impure --expr '(import <nixpkgs> {}).hello.overrideAttrs(_:{change="_var_";})'
-          ./dist/nix-portable-x86_64 nix-shell -p hello --run hello
+          ls -la result
+
+          ./result/nix-portable-x86_64 nix eval --impure --expr 'builtins.fetchGit {url="https://github.com/miuirussia/nix-portable"; rev="94b5e6c28600246a822d8b3b6f8d34603000312e";}'
+          ./result/nix-portable-x86_64 nix build --no-link -L --impure --expr '(import <nixpkgs> {}).hello.overrideAttrs(_:{change="_var_";})'
+          ./result/nix-portable-x86_64 nix-shell -p hello --run hello
           echo "All tests passed"
 
   pre-release:
@@ -89,8 +89,9 @@ jobs:
       - name: Restore cache
         uses: actions/cache/restore@v4
         with:
-          key: dist-${{ github.sha }}
-          path: dist
+          key: result-${{ github.sha }}
+          path: result
+          fail-on-cache-miss: true
 
       - name: Move latest tag
         run: |
@@ -113,7 +114,7 @@ jobs:
           prerelease: true
           draft: false
           files: |
-            ./dist/nix-portable-*
+            ./result/nix-portable-*
 
   cleanup:
     name: "Cleanup"
@@ -127,4 +128,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_REPO: ${{ github.repository }}
-          CACHE_KEY: dist-${{ github.sha }}
+          CACHE_KEY: result-${{ github.sha }}
