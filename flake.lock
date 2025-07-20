@@ -2,11 +2,11 @@
   "nodes": {
     "defaultChannel": {
       "locked": {
-        "lastModified": 1752885660,
-        "narHash": "sha256-6oQVZq3g8feI4Tg0uLghQidureAen9W9AcYllZ2Fv5Q=",
+        "lastModified": 1752972360,
+        "narHash": "sha256-xXHX2ET1g3GgrDkdco8WbgBB0jxI3pfmWFvgBGvDro0=",
         "owner": "miuirussia",
         "repo": "nixpkgs",
-        "rev": "5edef4ce29342f61c6f8dd18e57da85f65e61f81",
+        "rev": "7240fad7dae7e11b7ad1821cf320d003ffedf6aa",
         "type": "github"
       },
       "original": {
@@ -188,11 +188,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1752055615,
-        "narHash": "sha256-19m7P4O/Aw/6+CzncWMAJu89JaKeMh3aMle1CNQSIwM=",
+        "lastModified": 1752909129,
+        "narHash": "sha256-Eh8FkMvGRaY71BU/oyZTTzt9RsBIq2E6j0r3eLZ/2kY=",
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "rev": "c9d477b5d5bd7f26adddd3f96cfd6a904768d4f9",
+        "rev": "0043b95d80b5bf6d61e84d237e2007727f4dd38d",
         "type": "github"
       },
       "original": {
