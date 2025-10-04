@@ -94,18 +94,18 @@
         "nixpkgs-regression": "nixpkgs-regression"
       },
       "locked": {
-        "lastModified": 1759439062,
-        "narHash": "sha256-TMW5luDJZoI/CuqcsXiyhnTS1/GYIcbqAmkDlvzU/UM=",
+        "lastModified": 1759523102,
+        "narHash": "sha256-a88dnc8cemet7zQ290fugYYptL6oAg8LTUAkNP2bLTs=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "eb67b0df5a7d1370bbeaf6b6d3f75a467b5b681d",
+        "rev": "75826824d04a5e208cf08c99de65a921d90760a4",
         "type": "github"
       },
       "original": {
-        "narHash": "sha256-TMW5luDJZoI/CuqcsXiyhnTS1/GYIcbqAmkDlvzU/UM=",
+        "narHash": "sha256-a88dnc8cemet7zQ290fugYYptL6oAg8LTUAkNP2bLTs=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "eb67b0df5a7d1370bbeaf6b6d3f75a467b5b681d",
+        "rev": "75826824d04a5e208cf08c99de65a921d90760a4",
         "type": "github"
       }
     },
