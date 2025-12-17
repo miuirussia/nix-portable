@@ -9,7 +9,7 @@
     defaultChannel.url = "github:miuirussia/nixpkgs/nixpkgs-unstable";
 
     # See latest done job https://hydra.nixos.org/job/nix/master/buildStatic.nix-everything.x86_64-linux/latest
-    nix.url = "github:NixOS/nix/b398c14045f4bfe615788d468f6a017870e204b0?narHash=sha256-aYgB%2Bbjzc%2B8qAvo%2BibK5KOvktxMfydtEPcqSP1UwAPU%3D";
+    nix.url = "github:NixOS/nix/a38fc659cc4f318a45df5b61ec21745ba972f5e6?narHash=sha256-w2sPb/1UH3q5HJambT0CkdUhOxY30MHB2gPI6hStGG8%3D";
   };
 
   outputs =
