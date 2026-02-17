@@ -2,11 +2,11 @@
   "nodes": {
     "defaultChannel": {
       "locked": {
-        "lastModified": 1771203103,
-        "narHash": "sha256-oETFWTeFzgzVuIs0hywmBJILu6QiOUS4HJVD3XJnxyA=",
+        "lastModified": 1771289367,
+        "narHash": "sha256-HsreRbOYgmvJ2H4X38syfOHO5aEgEn4lcvzl3Epn3g8=",
         "owner": "miuirussia",
         "repo": "nixpkgs",
-        "rev": "aee1dc9cdb00f07ea97c527eb8dd77be371444dc",
+        "rev": "8664e0c5f336a5cb38ef7831808daa86b9990b6f",
         "type": "github"
       },
       "original": {
@@ -94,28 +94,28 @@
         "nixpkgs-regression": "nixpkgs-regression"
       },
       "locked": {
-        "lastModified": 1771168014,
-        "narHash": "sha256-dpoB0Da/m0BDeE7pDKhvsIHavEJO5KT/yqxuriYmsCg=",
+        "lastModified": 1771173712,
+        "narHash": "sha256-jcfewR+RiqKzYYyGrZs2oMcLWghFeKPGGmPg/vTUxhU=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "02d9f4ecb47905390314f76a19100c3dec5aea1c",
+        "rev": "0749ec4e55de81481b7b62d7cf7761bf41d81054",
         "type": "github"
       },
       "original": {
-        "narHash": "sha256-dpoB0Da/m0BDeE7pDKhvsIHavEJO5KT/yqxuriYmsCg=",
+        "narHash": "sha256-jcfewR+RiqKzYYyGrZs2oMcLWghFeKPGGmPg/vTUxhU=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "02d9f4ecb47905390314f76a19100c3dec5aea1c",
+        "rev": "0749ec4e55de81481b7b62d7cf7761bf41d81054",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1769089682,
-        "narHash": "sha256-Xu+7iYcAuOvsI2wdkUcIEmkqEJbvvE6n7qR9QNjJyP4=",
-        "rev": "078d69f03934859a181e81ba987c2bb033eebfc5",
+        "lastModified": 1771043024,
+        "narHash": "sha256-WoiezqWJQ3OHILah+p6rzNXdJceEAmAhyDFZFZ6pZzY=",
+        "rev": "3aadb7ca9eac2891d52a9dec199d9580a6e2bf44",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/25.11/nixos-25.11.4506.078d69f03934/nixexprs.tar.xz"
+        "url": "https://releases.nixos.org/nixos/25.11/nixos-25.11.5960.3aadb7ca9eac/nixexprs.tar.xz"
       },
       "original": {
         "type": "tarball",
