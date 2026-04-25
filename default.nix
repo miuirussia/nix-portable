@@ -32,8 +32,6 @@ with builtins;
   prootStatic ? (callPackage ./proot/alpine.nix { }),
   compression ? "zstd -3 -T1",
   buildSystem ? builtins.currentSystem,
-  # # tar crashed on emulated aarch64 system
-  # buildSystem ? "x86_64-linux",
   # hardcode executable to run. Useful when creating a bundle.
   bundledPackage ? null,
   ...

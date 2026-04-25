@@ -22,7 +22,6 @@
 
       supportedSystems = [
         "x86_64-linux"
-        "aarch64-linux"
       ];
 
       forAllSystems =
@@ -132,27 +131,11 @@
             release = pkgs.runCommand "all-nix-portable-release-files" { } ''
               mkdir $out
               cp ${self.packages.x86_64-linux.nix-portable}/bin/nix-portable $out/nix-portable-x86_64
-              # cp ${self.packages.aarch64-linux.nix-portable}/bin/nix-portable $out/nix-portable-aarch64
             '';
           }
         );
 
         defaultPackage = forAllSystems (system: pkgs: self.packages."${system}".nix-portable);
-      })
-      {
-        packages = (
-          genAttrs [ "x86_64-linux" ] (
-            system:
-            (listToAttrs (
-              map (
-                crossSystem:
-                nameValuePair "nix-portable-${crossSystem}" (nixPortableForSystem {
-                  inherit crossSystem system;
-                })
-              ) [ "aarch64-linux" ]
-            ))
-          )
-        );
-      };
+      });
 
 }

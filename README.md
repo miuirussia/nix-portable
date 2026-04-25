@@ -135,7 +135,7 @@ To create smaller bundles specify `--bundler github:miuirussia/nix-portable#zstd
 
 ### Supported platforms
 
-Potentially any linux system with an **x86_64** or **aarch64** CPU is supported.
+Currently supported: **x86_64** CPU on Linux.
 
 nix-portable is tested continuously on the following platforms:
 
@@ -148,8 +148,6 @@ nix-portable is tested continuously on the following platforms:
   - Ubuntu 22.04
   - Ubuntu 23.10
   - Ubuntu 24.04
-- Distros (aarch64):
-  - Debian
 - Other Environments:
   - Github Actions
   - Docker (debian image)
