@@ -74,68 +74,67 @@
         };
 
     in
-    recursiveUpdate
-      ({
-        bundlers = forAllSystems (
-          system: pkgs: {
-            # bundle with fast compression by default
-            default = self.bundlers.${system}.zstd-fast;
-            zstd-fast =
-              drv:
-              self.packages.${system}.nix-portable.override {
-                bundledPackage = drv;
-                compression = "zstd -3 -T0";
-              };
-            zstd-max =
-              drv:
-              self.packages.${system}.nix-portable.override {
-                bundledPackage = drv;
-                compression = "zstd -19 -T0";
-              };
-          }
-        );
-
-        formatter = forAllSystems (
-          system: pkgs:
-          let
-            treefmtEval = inp.treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
-          in
-          treefmtEval.config.build.wrapper
-        );
-
-        devShell = forAllSystems (
-          system: pkgs:
-          pkgs.mkShell {
-            buildInputs = with pkgs; [
-              bashInteractive
-              guestfs-tools
-              parallel
-              proot
-              qemu
-            ];
-          }
-        );
-
-        packages = forAllSystems (
-          system: pkgs: {
-            nix-portable = (nixPortableForSystem { inherit system; }).override {
-              # all non x86_64-linux systems are built via emulation
-              #   -> decrease compression level to reduce CI build time
-              compression = if system == "x86_64-linux" then "zstd -19 -T0" else "zstd -9 -T0";
+    {
+      bundlers = forAllSystems (
+        system: pkgs: {
+          # bundle with fast compression by default
+          default = self.bundlers.${system}.zstd-fast;
+          zstd-fast =
+            drv:
+            self.packages.${system}.nix-portable.override {
+              bundledPackage = drv;
+              compression = "zstd -3 -T0";
             };
-            # dev version that builds faster
-            nix-portable-dev = self.packages.${system}.nix-portable.override {
-              compression = "zstd -3 -T1";
+          zstd-max =
+            drv:
+            self.packages.${system}.nix-portable.override {
+              bundledPackage = drv;
+              compression = "zstd -19 -T0";
             };
+        }
+      );
 
-            release = pkgs.runCommand "all-nix-portable-release-files" { } ''
-              mkdir $out
-              cp ${self.packages.x86_64-linux.nix-portable}/bin/nix-portable $out/nix-portable-x86_64
-            '';
-          }
-        );
+      formatter = forAllSystems (
+        system: pkgs:
+        let
+          treefmtEval = inp.treefmt-nix.lib.evalModule pkgs ./treefmt.nix;
+        in
+        treefmtEval.config.build.wrapper
+      );
 
-        defaultPackage = forAllSystems (system: pkgs: self.packages."${system}".nix-portable);
-      });
+      devShell = forAllSystems (
+        system: pkgs:
+        pkgs.mkShell {
+          buildInputs = with pkgs; [
+            bashInteractive
+            guestfs-tools
+            parallel
+            proot
+            qemu
+          ];
+        }
+      );
+
+      packages = forAllSystems (
+        system: pkgs: {
+          nix-portable = (nixPortableForSystem { inherit system; }).override {
+            # all non x86_64-linux systems are built via emulation
+            #   -> decrease compression level to reduce CI build time
+            compression = if system == "x86_64-linux" then "zstd -19 -T0" else "zstd -9 -T0";
+          };
+          # dev version that builds faster
+          nix-portable-dev = self.packages.${system}.nix-portable.override {
+            compression = "zstd -3 -T1";
+          };
+
+          release = pkgs.runCommand "all-nix-portable-release-files" { } ''
+            mkdir $out
+            cp ${self.packages.x86_64-linux.nix-portable}/bin/nix-portable $out/nix-portable-x86_64
+          '';
+        }
+      );
+
+      defaultPackage = forAllSystems (system: pkgs: self.packages."${system}".nix-portable);
+    };
 
 }
