@@ -2,11 +2,11 @@
   "nodes": {
     "defaultChannel": {
       "locked": {
-        "lastModified": 1777511207,
-        "narHash": "sha256-8zLigzW3OatpeiJ475VAJ5LoHx7pFauefZwHt6h9bQA=",
+        "lastModified": 1777597889,
+        "narHash": "sha256-ncz3+2NuSVsFnZgts+U1r+st8qanMIvSuzmljRNDRPE=",
         "owner": "miuirussia",
         "repo": "nixpkgs",
-        "rev": "0fe3371b4a3afc09dddf422507b53bed0d88f965",
+        "rev": "9487c9784a30a21375551ac4cd9a6687ed741bc4",
         "type": "github"
       },
       "original": {
@@ -94,18 +94,18 @@
         "nixpkgs-regression": "nixpkgs-regression"
       },
       "locked": {
-        "lastModified": 1777062565,
-        "narHash": "sha256-bqWfQZNvQ4Ld2k+RddWEzoeibmP/iVWv4ausVTaN1Us=",
+        "lastModified": 1777523598,
+        "narHash": "sha256-vmKbTK+npYZTSXv7GZ3impWBn3tNHzQVv1cVQxgBU2o=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "2f28dd9c137b7736457cd696ae440e42587c1f2b",
+        "rev": "7e4ac817dfcb80b11e5fb7404ecc61f6377ea1c9",
         "type": "github"
       },
       "original": {
-        "narHash": "sha256-bqWfQZNvQ4Ld2k+RddWEzoeibmP/iVWv4ausVTaN1Us=",
+        "narHash": "sha256-vmKbTK+npYZTSXv7GZ3impWBn3tNHzQVv1cVQxgBU2o=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "2f28dd9c137b7736457cd696ae440e42587c1f2b",
+        "rev": "7e4ac817dfcb80b11e5fb7404ecc61f6377ea1c9",
         "type": "github"
       }
     },
