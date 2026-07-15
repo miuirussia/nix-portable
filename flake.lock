@@ -2,11 +2,11 @@
   "nodes": {
     "defaultChannel": {
       "locked": {
-        "lastModified": 1783311181,
-        "narHash": "sha256-JFnumrJA097siUrqXI66wzn9KAWrsxHKNERnk6VHhXY=",
+        "lastModified": 1784084326,
+        "narHash": "sha256-sdjOMuayYZjULCHNgHlwjfZ+aEIdmmTcSP1g9Z4fuXc=",
         "owner": "miuirussia",
         "repo": "nixpkgs",
-        "rev": "8729d7389d5518fc62040262ac051b2dffbf333e",
+        "rev": "2c620c9371fabbf5f37d7e1316b79108ed15dafa",
         "type": "github"
       },
       "original": {
