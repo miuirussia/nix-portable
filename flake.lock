@@ -2,11 +2,11 @@
   "nodes": {
     "defaultChannel": {
       "locked": {
-        "lastModified": 1792901832,
-        "narHash": "sha256-NQTI6Dwq5ydedb272hcuvFIbJ/VMiAMkuyY9Y3RtbmA=",
+        "lastModified": 1793075979,
+        "narHash": "sha256-2ylTOULLxSiOcUA1Zqs85gd6MRIsnVf/Oywd8HVrapc=",
         "owner": "miuirussia",
         "repo": "nixpkgs",
-        "rev": "c2147935d96a6c6bd8812aa67ffa09615d73d2fe",
+        "rev": "7ed2fe625d891736037ad06152a40990f1d22e30",
         "type": "github"
       },
       "original": {
@@ -64,11 +64,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1790500375,
-        "narHash": "sha256-XN3sDtn8TU9hAc9xqZ+SqRB/HHm2wjxM6aSWYLJU+oo=",
+        "lastModified": 1791909798,
+        "narHash": "sha256-VAhpCOmrun/KXimYfR8NM88bciKCui7CqHHhThSzgag=",
         "owner": "cachix",
         "repo": "git-hooks.nix",
-        "rev": "a0e4241b51206fbcbf52fd322eb5f0cd80f153c4",
+        "rev": "1ba1dbfe28738c9a71c266be6efa5b89e75491a9",
         "type": "github"
       },
       "original": {
@@ -87,28 +87,28 @@
         "nixpkgs-regression": "nixpkgs-regression"
       },
       "locked": {
-        "lastModified": 1792953301,
-        "narHash": "sha256-HFtdvS9tAas0xfqA/rgfmVC5aeuB/Ynsw6+Bgtykil4=",
+        "lastModified": 1793058540,
+        "narHash": "sha256-1PrKH69DC2DVt8MEjsLqzrldL9N98YmmZQ09ohRvQag=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "d99b75169782dcdc79825db6edc2fc8d5424ff7f",
+        "rev": "f84878aea73ecad743282f60d1660cce4a41b372",
         "type": "github"
       },
       "original": {
-        "narHash": "sha256-HFtdvS9tAas0xfqA/rgfmVC5aeuB/Ynsw6+Bgtykil4=",
+        "narHash": "sha256-1PrKH69DC2DVt8MEjsLqzrldL9N98YmmZQ09ohRvQag=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "d99b75169782dcdc79825db6edc2fc8d5424ff7f",
+        "rev": "f84878aea73ecad743282f60d1660cce4a41b372",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1789344334,
-        "narHash": "sha256-it+7kNGnOOHBCEnl4SfZ7QtfGziH3EryzHqwvJpjAfg=",
-        "rev": "c3eea5b2156db11c7eeeada3dc737711255b253e",
+        "lastModified": 1792898606,
+        "narHash": "sha256-v+CWvNPgAsxoqWDWmkjhh3qwZiE/oGkhXT+QH79yg2o=",
+        "rev": "1f607aa79b6356ed45d3cd3c8079c196e79efa2c",
         "type": "tarball",
-        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.9729.c3eea5b2156d/nixexprs.tar.zst"
+        "url": "https://releases.nixos.org/nixos/26.05/nixos-26.05.12658.1f607aa79b63/nixexprs.tar.zst"
       },
       "original": {
         "type": "tarball",
